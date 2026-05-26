@@ -1,17 +1,15 @@
+import internshipsData from "@/data/internships.json";
 import { Internship } from "@/types/internship";
 
-const API_URL = "https://internshala.com/hiring/search";
-
 export const fetchInternships = async (): Promise<Internship[]> => {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch internships");
+  try {
+    return internshipsData.internships_meta
+      ? Object.values(
+          internshipsData.internships_meta
+        ) as Internship[]
+      : [];
+  } catch (error) {
+    console.error(error);
+    return [];
   }
-
-  const data = await response.json();
-
-  return data.internships_meta
-    ? Object.values(data.internships_meta)
-    : [];
 };
